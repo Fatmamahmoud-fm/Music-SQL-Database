@@ -1,0 +1,39 @@
+/*1 Who are the top 10 clients with highest spending rates ?*/
+SELECT firstname,
+       lastname,
+       sum(Invoice.total) AS money_spent
+FROM customer
+JOIN Invoice ON Customer.CustomerId = Invoice.CustomerId
+GROUP BY Invoice.CustomerId
+ORDER BY money_spent DESC
+LIMIT 10 ;
+
+/*2 which band has the most albums ?*/
+SELECT Artist.Name,
+       count(*) AS Albums_number
+FROM Artist
+JOIN Album ON Artist.ArtistId = Album.ArtistId
+GROUP BY Artist.name
+ORDER BY count(*) DESC
+LIMIT 10;
+
+/*3 who are the top 15 rock bands ?*/
+SELECT Art.ArtistId,
+       Art.Name,
+       count(*) AS total_tracks
+FROM Artist AS art
+JOIN Album AS alb ON art.ArtistId =alb.ArtistId
+JOIN Track AS t ON t.AlbumId = alb.AlbumId
+JOIN Genre AS g ON t.GenreId = g.GenreId
+WHERE g.Name='Rock'
+GROUP BY Art.Name
+ORDER BY total_tracks DESC
+LIMIT 15;
+
+/*4 which media type is the most commonly used ?*/
+SELECT MediaType.Name AS MediaType_name,
+       count(MediaType.Name) AS number_of_tracks
+FROM MediaType
+JOIN Track ON Track.MediaTypeId = MediaType.MediaTypeId
+GROUP BY MediaType.Name
+ORDER BY number_of_tracks DESC ;
